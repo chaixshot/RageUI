@@ -128,6 +128,7 @@ function RageUI.GoActionControl(Controls, Action)
 					Controls[Action or 'Left'].Pressed = true
 					Controls[Action or 'Left'].Active = true
 					CreateThread(function()
+						Wait(0)
 						Controls[Action or 'Left'].Active = false
 						Controls[Action or 'Left'].Pressed = false
 					end)
@@ -218,6 +219,7 @@ function RageUI.Controls()
                             if IsDisabledControlJustPressed(Controls.Down.Keys[Index][1], Controls.Back.Keys[Index][2]) then
                                 Controls.Back.Pressed = true
 								CreateThread(function()
+									Wait(0)
 									Controls.Back.Pressed = false
 								end)
                             end
