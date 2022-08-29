@@ -124,7 +124,7 @@ function RageUI.GoActionControl(Controls, Action)
     if Controls[Action or 'Left'].Enabled then
         for Index = 1, #Controls[Action or 'Left'].Keys do
             if not Controls[Action or 'Left'].Pressed then
-                if IsControlJustPressed(Controls[Action or 'Left'].Keys[Index][1], Controls[Action or 'Left'].Keys[Index][2]) then
+                if IsDisabledControlJustPressed(Controls[Action or 'Left'].Keys[Index][1], Controls[Action or 'Left'].Keys[Index][2]) then
 					Controls[Action or 'Left'].Pressed = true
 					Controls[Action or 'Left'].Active = true
 					CreateThread(function()
@@ -133,8 +133,6 @@ function RageUI.GoActionControl(Controls, Action)
 					end)
 					break
                 end
-			elseif IsControlJustReleased(Controls[Action or 'Left'].Keys[Index][1], Controls[Action or 'Left'].Keys[Index][2]) then
-				Controls[Action or 'Left'].Pressed = false
             end
         end
     end
@@ -144,12 +142,10 @@ function RageUI.GoActionControlSlider(Controls, Action)
     if Controls[Action].Enabled then
         for Index = 1, #Controls[Action].Keys do
             if not Controls[Action].Pressed then
-                if IsControlJustPressed(Controls[Action].Keys[Index][1], Controls[Action].Keys[Index][2]) then
+                if IsDisabledControlJustPressed(Controls[Action].Keys[Index][1], Controls[Action].Keys[Index][2]) then
                     Controls[Action].Pressed = true
 					Controls[Action].Active = true
                     break
-				else
-					Controls[Action].Pressed = false
                 end
             end
         end
@@ -186,13 +182,12 @@ function RageUI.Controls()
                 if Controls.Up.Enabled then
                     for Index = 1, #Controls.Up.Keys do
                         if not Controls.Up.Pressed then
-                            if IsControlJustPressed(Controls.Up.Keys[Index][1], Controls.Up.Keys[Index][2]) then
+                            if IsDisabledControlJustPressed(Controls.Up.Keys[Index][1], Controls.Up.Keys[Index][2]) then
 								Controls.Up.Pressed = true
 								RageUI.GoUp(Options)
+								Controls.Up.Pressed = false
 								break
                             end
-						elseif IsControlJustReleased(Controls.Up.Keys[Index][1], Controls.Up.Keys[Index][2]) then
-							Controls.Up.Pressed = false
                         end
                     end
                 end
@@ -200,13 +195,12 @@ function RageUI.Controls()
                 if Controls.Down.Enabled then
                     for Index = 1, #Controls.Down.Keys do
                         if not Controls.Down.Pressed then
-                            if IsControlJustPressed(Controls.Down.Keys[Index][1], Controls.Down.Keys[Index][2]) then
+                            if IsDisabledControlJustPressed(Controls.Down.Keys[Index][1], Controls.Down.Keys[Index][2]) then
                                 Controls.Down.Pressed = true
 								RageUI.GoDown(Options)
+								Controls.Down.Pressed = false
 								break
                             end
-						elseif IsControlJustReleased(Controls.Down.Keys[Index][1], Controls.Down.Keys[Index][2]) then
-							Controls.Down.Pressed = false
                         end
                     end
                 end
@@ -221,12 +215,12 @@ function RageUI.Controls()
                 if Controls.Back.Enabled then
                     for Index = 1, #Controls.Back.Keys do
 						if not Controls.Back.Pressed then
-                            if IsControlJustPressed(Controls.Down.Keys[Index][1], Controls.Back.Keys[Index][2]) then
+                            if IsDisabledControlJustPressed(Controls.Down.Keys[Index][1], Controls.Back.Keys[Index][2]) then
                                 Controls.Back.Pressed = true
-
+								CreateThread(function()
+									Controls.Back.Pressed = false
+								end)
                             end
-						elseif IsControlJustReleased(Controls.Back.Keys[Index][1], Controls.Back.Keys[Index][2]) then
-							Controls.Back.Pressed = false
                         end
                     end
                 end
