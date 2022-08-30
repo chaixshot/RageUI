@@ -119,34 +119,34 @@ function RageUI.GoDown(Options)
         end
     end
 end
-						
+
 function RageUI.GoActionControl(Controls, Action)
-    if Controls[Action or 'Left'].Enabled then
-        for Index = 1, #Controls[Action or 'Left'].Keys do
-            if not Controls[Action or 'Left'].Pressed then
-                if IsDisabledControlJustPressed(Controls[Action or 'Left'].Keys[Index][1], Controls[Action or 'Left'].Keys[Index][2]) then
-                    Controls[Action or 'Left'].Pressed = true
-                    CreateThread(function()
-                        Controls[Action or 'Left'].Active = true
-                        Citizen.Wait(0.01)
-                        Controls[Action or 'Left'].Active = false
-                        Citizen.Wait(100)
-                        while Controls[Action or 'Left'].Enabled and IsDisabledControlPressed(Controls[Action or 'Left'].Keys[Index][1], Controls[Action or 'Left'].Keys[Index][2]) do
-                            Controls[Action or 'Left'].Active = true
-                            Citizen.Wait(1)
-                            Controls[Action or 'Left'].Active = false
-                            Citizen.Wait(150)
-                        end
-                        Controls[Action or 'Left'].Pressed = false
-                        if (Action ~= ControlActions[5]) then
-                            Citizen.Wait(10)
-                        end
-                    end)
-                    break
-                end
-            end
-        end
-    end
+	if Controls[Action or 'Left'].Enabled then
+		for Index = 1, #Controls[Action or 'Left'].Keys do
+			if not Controls[Action or 'Left'].Pressed then
+				if IsDisabledControlJustPressed(Controls[Action or 'Left'].Keys[Index][1], Controls[Action or 'Left'].Keys[Index][2]) then
+					Controls[Action or 'Left'].Pressed = true
+					Citizen.CreateThread(function()
+						Controls[Action or 'Left'].Active = true
+						Citizen.Wait(0.01)
+						Controls[Action or 'Left'].Active = false
+						Citizen.Wait(100)
+						while Controls[Action or 'Left'].Enabled and IsDisabledControlPressed(Controls[Action or 'Left'].Keys[Index][1], Controls[Action or 'Left'].Keys[Index][2]) do
+							Controls[Action or 'Left'].Active = true
+							Citizen.Wait(1)
+							Controls[Action or 'Left'].Active = false
+							Citizen.Wait(50)
+						end
+						Controls[Action or 'Left'].Pressed = false
+						if (Action ~= ControlActions[5]) then
+							Citizen.Wait(10)
+						end
+					end)
+					break
+				end
+			end
+		end
+	end
 end
 
 function RageUI.GoActionControlSlider(Controls, Action)
@@ -204,10 +204,17 @@ function RageUI.Controls()
                     for Index = 1, #Controls.Up.Keys do
                         if not Controls.Up.Pressed then
                             if IsDisabledControlJustPressed(Controls.Up.Keys[Index][1], Controls.Up.Keys[Index][2]) then
-								Controls.Up.Pressed = true
-								RageUI.GoUp(Options)
-								Controls.Up.Pressed = false
-								break
+                                Controls.Up.Pressed = true
+                                CreateThread(function()
+                                    RageUI.GoUp(Options)
+                                    Citizen.Wait(100)
+                                    while Controls.Up.Enabled and IsDisabledControlPressed(Controls.Up.Keys[Index][1], Controls.Up.Keys[Index][2]) do
+                                        RageUI.GoUp(Options)
+                                        Citizen.Wait(50)
+                                    end
+                                    Controls.Up.Pressed = false
+                                end)
+                                break
                             end
                         end
                     end
@@ -218,9 +225,16 @@ function RageUI.Controls()
                         if not Controls.Down.Pressed then
                             if IsDisabledControlJustPressed(Controls.Down.Keys[Index][1], Controls.Down.Keys[Index][2]) then
                                 Controls.Down.Pressed = true
-								RageUI.GoDown(Options)
-								Controls.Down.Pressed = false
-								break
+                                CreateThread(function()
+                                    RageUI.GoDown(Options)
+                                    Citizen.Wait(100)
+                                    while Controls.Down.Enabled and IsDisabledControlPressed(Controls.Down.Keys[Index][1], Controls.Down.Keys[Index][2]) do
+                                        RageUI.GoDown(Options)
+                                        Citizen.Wait(50)
+                                    end
+                                    Controls.Down.Pressed = false
+                                end)
+                                break
                             end
                         end
                     end
@@ -234,18 +248,19 @@ function RageUI.Controls()
                 RageUI.GoActionControlSlider(Controls, 'SliderRight')
 
                 if Controls.Back.Enabled then
-                    for Index = 1, #Controls.Back.Keys do
+					for Index = 1, #Controls.Back.Keys do
 						if not Controls.Back.Pressed then
-                            if IsDisabledControlJustPressed(Controls.Down.Keys[Index][1], Controls.Back.Keys[Index][2]) then
-                                Controls.Back.Pressed = true
-								CreateThread(function()
-									Wait(0)
-									Controls.Back.Pressed = false
+							if IsDisabledControlJustPressed(Controls.Back.Keys[Index][1], Controls.Back.Keys[Index][2]) then
+								Controls.Back.Pressed = true
+								Citizen.CreateThread(function()
+									Citizen.Wait(175)
+									Controls.Down.Pressed = false
 								end)
-                            end
-                        end
-                    end
-                end
+								break
+							end
+						end
+					end
+				end
             end
         end
     end
