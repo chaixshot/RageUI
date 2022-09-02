@@ -418,7 +418,7 @@ function RageUI.Banner()
 				local height = 800 / Height
 				DrawScaleformMovie(RageUI.CurrentMenu.GlareScaleform, x + (width / 2.0), y + (height / 1.967), width, height, 255, 255, 255, 255)
             end
-            RenderText(CurrentMenu.Title, CurrentMenu.X + RageUI.Settings.Items.Title.Text.X + (CurrentMenu.WidthOffset / 2), CurrentMenu.Y + RageUI.Settings.Items.Title.Text.Y, CurrentMenu.TitleFont, CurrentMenu.TitleScale, 255, 255, 255, 255, 1)
+            RenderText(CurrentMenu.Title:gsub('................', '%1\n'), CurrentMenu.X + RageUI.Settings.Items.Title.Text.X + (CurrentMenu.WidthOffset / 2), CurrentMenu.Y + RageUI.Settings.Items.Title.Text.Y, CurrentMenu.TitleFont, CurrentMenu.TitleScale, 255, 255, 255, 255, 1)
             RageUI.ItemOffset = RageUI.ItemOffset + RageUI.Settings.Items.Title.Background.Height
         end
     end
