@@ -29,7 +29,7 @@ end
 ---@return _G
 ---@public
 function MeasureStringWidth(str, font, scale)
-    BeginTextCommandWidth("CELL_EMAIL_BCON")
+    BeginTextCommandGetWidth("CELL_EMAIL_BCON")
     AddTextComponentSubstringPlayerName(str)
     SetTextFont(font or 0)
     SetTextScale(1.0, scale or 0)

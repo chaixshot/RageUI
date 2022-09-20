@@ -112,14 +112,10 @@ function RageUI.List(Label, Items, Index, Description, Style, Enabled, Actions, 
                     error("UICheckBox Style is not a `table`")
                 end
 
-                LeftArrowHovered = RageUI.IsMouseInBounds(CurrentMenu.X + SettingsList.Text.X + CurrentMenu.WidthOffset - RightOffset + CurrentMenu.SafeZoneSize.X, CurrentMenu.Y + SettingsList.Text.Y + CurrentMenu.SubtitleHeight + RageUI.ItemOffset + 2.5  + CurrentMenu.SafeZoneSize.Y , 15, 22.5)
-
-                RightArrowHovered = RageUI.IsMouseInBounds(CurrentMenu.X + SettingsList.Text.X + CurrentMenu.WidthOffset + CurrentMenu.SafeZoneSize.X - RightOffset - MeasureStringWidth(ListText, 0, SettingsList.Text.Scale), CurrentMenu.Y + SettingsList.Text.Y + CurrentMenu.SubtitleHeight + RageUI.ItemOffset + 2.5 + CurrentMenu.SafeZoneSize.Y , 15, 22.5)
-                RageUI.ItemOffset = RageUI.ItemOffset + SettingsButton.Rectangle.Height
-
+				RageUI.ItemOffset = RageUI.ItemOffset + SettingsButton.Rectangle.Height
                 RageUI.ItemsDescription(CurrentMenu, Description, Selected);
 
-                if Selected and (CurrentMenu.Controls.Left.Active or (CurrentMenu.Controls.Click.Active and LeftArrowHovered)) and not (CurrentMenu.Controls.Right.Active or (CurrentMenu.Controls.Click.Active and RightArrowHovered)) then
+                if Selected and (CurrentMenu.Controls.Left.Active) and not (CurrentMenu.Controls.Right.Active or (CurrentMenu.Controls.Click.Active and RightArrowHovered)) then
                     Index = Index - 1
                     if Index < 1 then
                         Index = #Items
@@ -129,7 +125,7 @@ function RageUI.List(Label, Items, Index, Description, Style, Enabled, Actions, 
                     end
                     local Audio = RageUI.Settings.Audio
                     RageUI.PlaySound(Audio[Audio.Use].LeftRight.audioName, Audio[Audio.Use].LeftRight.audioRef)
-                elseif Selected and (CurrentMenu.Controls.Right.Active or (CurrentMenu.Controls.Click.Active and RightArrowHovered)) and not (CurrentMenu.Controls.Left.Active or (CurrentMenu.Controls.Click.Active and LeftArrowHovered)) then
+                elseif Selected and (CurrentMenu.Controls.Right.Active) and not (CurrentMenu.Controls.Left.Active or (CurrentMenu.Controls.Click.Active and LeftArrowHovered)) then
                     Index = Index + 1
                     if Index > #Items then
                         Index = 1
