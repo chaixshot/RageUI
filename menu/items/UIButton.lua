@@ -18,7 +18,10 @@ local SettingsButton = {
 ---@return nil
 ---@public
 function RageUI.Button(Label, Description, Style, Enabled, Callback, Submenu)
-
+	local Label = Label
+	if type(Label) == "string" then
+		Label = Label:sub(1, 30)
+	end
 
     ---@type table
     local CurrentMenu = RageUI.CurrentMenu;

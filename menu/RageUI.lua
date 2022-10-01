@@ -434,19 +434,19 @@ function RageUI.Banner()
 			local text = string.split(CurrentMenu.Title, " ")
 			local Title = ""
 			local length = 0
-			local newline = false
+			local scale = 0.0
 			for k,v in pairs(text) do
 				length += v:len()
-				if length >= 13 then
+				if length >= 12 then
 					length = 0
 					v = v.."\n"
 					Title = Title..v
-					newline = true
+					scale += 0.1
 				else
 					Title = Title..v.." "
 				end
 			end
-            RenderText(Title, CurrentMenu.X + RageUI.Settings.Items.Title.Text.X + (CurrentMenu.WidthOffset / 2), CurrentMenu.Y + RageUI.Settings.Items.Title.Text.Y, CurrentMenu.TitleFont, CurrentMenu.TitleScale-(newline and 0.1 or 0.0), 255, 255, 255, 255, 1)
+            RenderText(Title, CurrentMenu.X + RageUI.Settings.Items.Title.Text.X + (CurrentMenu.WidthOffset / 2), CurrentMenu.Y + RageUI.Settings.Items.Title.Text.Y, CurrentMenu.TitleFont, CurrentMenu.TitleScale-scale, 255, 255, 255, 255, 1)
             RageUI.ItemOffset = RageUI.ItemOffset + RageUI.Settings.Items.Title.Background.Height
         end
     end

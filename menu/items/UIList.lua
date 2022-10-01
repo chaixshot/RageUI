@@ -43,8 +43,13 @@ function RageUI.List(Label, Items, Index, Description, Style, Enabled, Actions, 
                 if CurrentMenu.EnableMouse == true and (CurrentMenu.CursorStyle == 0) or (CurrentMenu.CursorStyle == 1) then
                     Hovered = RageUI.ItemsMouseBounds(CurrentMenu, Selected, Option, SettingsButton);
                 end
-                local ListText = (type(Items[Index]) == "table") and string.format("← %s →", Items[Index].Name) or string.format("← %s →", Items[Index]) or "NIL"
-
+				
+				local Name = (type(Items[Index]) == "table") and Items[Index].Name or Items[Index] or "NIL"
+				if type(Name) == "string" then
+					Name = Name:sub(1, 17)
+				end
+                local ListText = string.format("← %s →", Name)
+				
                 if Selected then
                     RenderSprite(SettingsButton.SelectedSprite.Dictionary, SettingsButton.SelectedSprite.Texture, CurrentMenu.X, CurrentMenu.Y + SettingsButton.SelectedSprite.Y + CurrentMenu.SubtitleHeight + RageUI.ItemOffset, SettingsButton.SelectedSprite.Width + CurrentMenu.WidthOffset, SettingsButton.SelectedSprite.Height)
                 end
