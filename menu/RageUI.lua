@@ -391,6 +391,18 @@ function RageUI.CloseAll()
     ResetScriptGfxAlign()
 end
 
+function string.split(inputstr, sep)
+    if sep == nil then
+        sep = "%s"
+    end
+    local t={} ; i=1
+    for str in string.gmatch(inputstr, "([^"..sep.."]+)") do
+        t[i] = str
+        i = i + 1
+    end
+    return t
+end
+
 function RageUI.Banner()
     local CurrentMenu = RageUI.CurrentMenu
     if CurrentMenu ~= nil then
@@ -418,7 +430,23 @@ function RageUI.Banner()
 				local height = 800 / Height
 				DrawScaleformMovie(RageUI.CurrentMenu.GlareScaleform, x + (width / 2.0), y + (height / 1.967), width, height, 255, 255, 255, 255)
             end
-            RenderText(CurrentMenu.Title:gsub('................', '%1\n'), CurrentMenu.X + RageUI.Settings.Items.Title.Text.X + (CurrentMenu.WidthOffset / 2), CurrentMenu.Y + RageUI.Settings.Items.Title.Text.Y, CurrentMenu.TitleFont, CurrentMenu.TitleScale, 255, 255, 255, 255, 1)
+			
+			local text = string.split(CurrentMenu.Title, " ")
+			local Title = ""
+			local length = 0
+			local newline = false
+			for k,v in pairs(text) do
+				length += v:len()
+				if length >= 13 then
+					length = 0
+					v = v.."\n"
+					Title = Title..v
+					newline = true
+				else
+					Title = Title..v.." "
+				end
+			end
+            RenderText(Title, CurrentMenu.X + RageUI.Settings.Items.Title.Text.X + (CurrentMenu.WidthOffset / 2), CurrentMenu.Y + RageUI.Settings.Items.Title.Text.Y, CurrentMenu.TitleFont, CurrentMenu.TitleScale-(newline and 0.1 or 0.0), 255, 255, 255, 255, 1)
             RageUI.ItemOffset = RageUI.ItemOffset + RageUI.Settings.Items.Title.Background.Height
         end
     end
