@@ -32,8 +32,8 @@ function RageUI.ColourPanel(Title, Colours, MinimumIndex, CurrentIndex, Action, 
             local Hovered = RageUI.IsMouseInBounds(CurrentMenu.X + Colour.Box.X + CurrentMenu.SafeZoneSize.X + (CurrentMenu.WidthOffset / 2), CurrentMenu.Y + Colour.Box.Y + CurrentMenu.SafeZoneSize.Y + CurrentMenu.SubtitleHeight + RageUI.ItemOffset, (Colour.Box.Width * Maximum), Colour.Box.Height)
 
             ---@type number
-            local LeftArrowHovered = RageUI.IsMouseInBounds(CurrentMenu.X + Colour.LeftArrow.X + CurrentMenu.SafeZoneSize.X + (CurrentMenu.WidthOffset / 2), CurrentMenu.Y + Colour.LeftArrow.Y + CurrentMenu.SafeZoneSize.Y + CurrentMenu.SubtitleHeight + RageUI.ItemOffset, Colour.LeftArrow.Width, Colour.LeftArrow.Height)
-
+            local LeftArrowHovered = RageUI.IsMouseInBounds(CurrentMenu.X + Colour.LeftArrow.X + CurrentMenu.SafeZoneSize.X + (CurrentMenu.WidthOffset / 2), CurrentMenu.Y + Colour.LeftArrow.Y + CurrentMenu.SafeZoneSize.Y + CurrentMenu.SubtitleHeight + RageUI.ItemOffset, Colour.LeftArrow.Width, Colour.LeftArrow.Height) 
+	
             ---@type number
             local RightArrowHovered = RageUI.IsMouseInBounds(CurrentMenu.X + Colour.RightArrow.X + CurrentMenu.SafeZoneSize.X + (CurrentMenu.WidthOffset / 2), CurrentMenu.Y + Colour.RightArrow.Y + CurrentMenu.SafeZoneSize.Y + CurrentMenu.SubtitleHeight + RageUI.ItemOffset, Colour.RightArrow.Width, Colour.RightArrow.Height)
 
@@ -63,11 +63,11 @@ function RageUI.ColourPanel(Title, Colours, MinimumIndex, CurrentIndex, Action, 
             
             RenderText((Title and Title or "") .. " (" .. CurrentIndex .. " " .. ColourSeperator.Text .. " " .. #Colours .. ")", CurrentMenu.X + RageUI.Settings.Panels.Grid.Text.Top.X + (CurrentMenu.WidthOffset / 2), CurrentMenu.Y + RageUI.Settings.Panels.Grid.Text.Top.Y + CurrentMenu.SubtitleHeight + RageUI.ItemOffset, 0, RageUI.Settings.Panels.Grid.Text.Top.Scale, 245, 245, 245, 255, 1)
 
-            if Hovered or LeftArrowHovered or RightArrowHovered then
-                if RageUI.Settings.Controls.Click.Active then
+            if Hovered or LeftArrowHovered or RightArrowHovered or CurrentMenu.Controls.Left.Active or CurrentMenu.Controls.Right.Active then
+                if RageUI.Settings.Controls.Click.Active or CurrentMenu.Controls.Left.Active or CurrentMenu.Controls.Right.Active then
                     Selected = true
 
-                    if LeftArrowHovered then
+                    if LeftArrowHovered or CurrentMenu.Controls.Left.Active then
                         CurrentIndex = CurrentIndex - 1
 
                         if CurrentIndex < 1 then
@@ -76,7 +76,7 @@ function RageUI.ColourPanel(Title, Colours, MinimumIndex, CurrentIndex, Action, 
                         elseif CurrentIndex < MinimumIndex then
                             MinimumIndex = MinimumIndex - 1
                         end
-                    elseif RightArrowHovered then
+                    elseif RightArrowHovered or CurrentMenu.Controls.Right.Active then
                         CurrentIndex = CurrentIndex + 1
 
                         if CurrentIndex > #Colours then
@@ -108,5 +108,3 @@ function RageUI.ColourPanel(Title, Colours, MinimumIndex, CurrentIndex, Action, 
         end
     end
 end
-
-
