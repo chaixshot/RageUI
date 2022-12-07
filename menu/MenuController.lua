@@ -130,11 +130,14 @@ function RageUI.GoActionControl(Controls, Action)
 						Controls[Action or 'Left'].Active = true
 						Citizen.Wait(0.01)
 						Controls[Action or 'Left'].Active = false
-						Citizen.Wait(100)
-						while Controls[Action or 'Left'].Enabled and IsDisabledControlPressed(Controls[Action or 'Left'].Keys[Index][1], Controls[Action or 'Left'].Keys[Index][2]) do
-							Controls[Action or 'Left'].Active = true
-							Citizen.Wait(1)
-							Controls[Action or 'Left'].Active = false
+						local timer = GetGameTimer()
+						while Action ~= "Select" and Controls[Action or 'Left'].Enabled and IsDisabledControlPressed(Controls[Action or 'Left'].Keys[Index][1], Controls[Action or 'Left'].Keys[Index][2]) do
+							if GetTimeDifference(GetGameTimer(), timer) > 300 then
+								Controls[Action or 'Left'].Pressed = false
+								Controls[Action or 'Left'].Active = true
+								Citizen.Wait(1)
+								Controls[Action or 'Left'].Active = false
+							end
 							Citizen.Wait(50)
 						end
 						Controls[Action or 'Left'].Pressed = false
@@ -207,9 +210,12 @@ function RageUI.Controls()
                                 Controls.Up.Pressed = true
                                 CreateThread(function()
                                     RageUI.GoUp(Options)
-                                    Citizen.Wait(100)
+									local timer = GetGameTimer()
                                     while Controls.Up.Enabled and IsDisabledControlPressed(Controls.Up.Keys[Index][1], Controls.Up.Keys[Index][2]) do
-                                        RageUI.GoUp(Options)
+										if GetTimeDifference(GetGameTimer(), timer) > 300 then
+											Controls.Up.Pressed = false
+											RageUI.GoUp(Options)
+										end
                                         Citizen.Wait(50)
                                     end
                                     Controls.Up.Pressed = false
@@ -225,11 +231,14 @@ function RageUI.Controls()
                         if not Controls.Down.Pressed then
                             if IsDisabledControlJustPressed(Controls.Down.Keys[Index][1], Controls.Down.Keys[Index][2]) then
                                 Controls.Down.Pressed = true
-                                CreateThread(function()
+								CreateThread(function()
                                     RageUI.GoDown(Options)
-                                    Citizen.Wait(100)
+									local timer = GetGameTimer()
                                     while Controls.Down.Enabled and IsDisabledControlPressed(Controls.Down.Keys[Index][1], Controls.Down.Keys[Index][2]) do
-                                        RageUI.GoDown(Options)
+										if GetTimeDifference(GetGameTimer(), timer) > 300 then
+											Controls.Down.Pressed = false
+											RageUI.GoDown(Options)
+										end
                                         Citizen.Wait(50)
                                     end
                                     Controls.Down.Pressed = false
