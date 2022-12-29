@@ -44,6 +44,7 @@ function RageUI.List(Label, Items, Index, Description, Style, Enabled, Actions, 
                     Hovered = RageUI.ItemsMouseBounds(CurrentMenu, Selected, Option, SettingsButton);
                 end
 				
+				if not Items then Items = {} end
 				local Name = (type(Items[Index]) == "table") and Items[Index].Name or Items[Index] or "NIL"
 				if type(Name) == "string" then
 					Name = Name:sub(1, 17+math.floor(CurrentMenu.WidthOffset/10))
