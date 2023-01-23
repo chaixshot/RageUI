@@ -6,7 +6,7 @@ local Colour = {
     Header = { X = 215.5, Y = 15, Scale = 0.35 },
     Box = { X = 15, Y = 55, Width = 44.5, Height = 44.5 },
     SelectedRectangle = { X = 15, Y = 47, Width = 44.5, Height = 8 },
-    Seperator = { Text = "<font face='DarkRP'>จาก</font>" }
+    Seperator = { Text = "From" }
 }
 
 ---ColourPanel

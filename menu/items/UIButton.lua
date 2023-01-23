@@ -98,9 +98,10 @@ function RageUI.Button(Label, Description, Style, Enabled, Callback, Submenu)
 
                 RageUI.ItemsDescription(CurrentMenu, Description, Selected);
 
-                if (Enabled) then
-                    if Selected and (CurrentMenu.Controls.Select.Active or (Hovered and CurrentMenu.Controls.Click.Active)) then
-                        local Audio = RageUI.Settings.Audio
+                
+                if Selected and (CurrentMenu.Controls.Select.Active or (Hovered and CurrentMenu.Controls.Click.Active)) then
+                    local Audio = RageUI.Settings.Audio
+                    if Enabled then
                         RageUI.PlaySound(Audio[Audio.Use].Select.audioName, Audio[Audio.Use].Select.audioRef)
                         if (Callback.onSelected ~= nil) and (Selected) then
                             Callback.onSelected();
@@ -110,11 +111,13 @@ function RageUI.Button(Label, Description, Style, Enabled, Callback, Submenu)
                                 RageUI.NextMenu = Submenu
                             end
                         end
-                    elseif Selected then
-                        if(Callback.onActive ~= nil) then
-                            Callback.onActive()
-                        end 
+                    else
+                        RageUI.PlaySound(Audio[Audio.Use].Error.audioName, Audio[Audio.Use].Error.audioRef)
                     end
+                elseif Enabled and Selected then
+                    if(Callback.onActive ~= nil) then
+                        Callback.onActive()
+                    end 
                 end
             end
             RageUI.Options = RageUI.Options + 1

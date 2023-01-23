@@ -346,8 +346,8 @@ function RageUI.GetSafeZoneBounds()
 end
 
 function RageUI.Visible(Menu, Value)
-    if Menu ~= nil and Menu() then
-        if Value == true or Value == false then
+    if Menu ~= nil then
+        if (Value == true or Value == false) and Menu() then
             if Value then
                 if RageUI.CurrentMenu ~= nil then
                     if RageUI.CurrentMenu.Closed ~= nil then
@@ -426,7 +426,7 @@ function RageUI.Banner()
 				local Width, Height = GetScreenResolution()
 				local x = RageUI.CurrentMenu.X / Width / Width
 				local y = RageUI.CurrentMenu.Y / Height / Height
-				local width = 1045 / Width
+				local width = (1045+CurrentMenu.WidthOffset*2.42) / Width
 				local height = 800 / Height
 				DrawScaleformMovie(RageUI.CurrentMenu.GlareScaleform, x + (width / 2.0), y + (height / 1.967), width, height, 255, 255, 255, 255)
             end

@@ -192,6 +192,9 @@ function RageUI.Controls()
                 if CurrentMenu.EnableMouse then
                     DisableAllControlActions(2)
                 end
+                
+                DisableControlAction(0, 37, true) -- INPUT_SELECT_WEAPON
+                DisableControlAction(0, 140, true) -- INPUT_MELEE_ATTACK_LIGHT
 
                 if not IsInputDisabled(2) then
                     for Index = 1, #Controls.Enabled.Controller do
@@ -257,19 +260,20 @@ function RageUI.Controls()
                 RageUI.GoActionControlSlider(Controls, 'SliderRight')
 
                 if Controls.Back.Enabled then
-					for Index = 1, #Controls.Back.Keys do
-						if not Controls.Back.Pressed then
-							if IsDisabledControlJustPressed(Controls.Back.Keys[Index][1], Controls.Back.Keys[Index][2]) then
-								Controls.Back.Pressed = true
-								Citizen.CreateThread(function()
-									Citizen.Wait(175)
-									Controls.Down.Pressed = false
-								end)
-								break
-							end
-						end
-					end
-				end
+                    for Index = 1, #Controls.Back.Keys do
+                        if not Controls.Back.Pressed then
+                            if not Controls.Back.Locked and IsDisabledControlJustPressed(Controls.Back.Keys[Index][1], Controls.Back.Keys[Index][2]) then
+                                Controls.Back.Locked = true
+                                Controls.Back.Pressed = true
+                                CreateThread(function()
+                                    Citizen.Wait(200)
+                                    Controls.Back.Locked = false
+                                end)
+                                break
+                            end
+                        end
+                    end
+                end
             end
         end
     end

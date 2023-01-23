@@ -122,39 +122,53 @@ function RageUI.List(Label, Items, Index, Description, Style, Enabled, Actions, 
                 RageUI.ItemsDescription(CurrentMenu, Description, Selected);
 
                 if Selected and (CurrentMenu.Controls.Left.Active) and not (CurrentMenu.Controls.Right.Active or (CurrentMenu.Controls.Click.Active and RightArrowHovered)) then
-                    Index = Index - 1
-                    if Index < 1 then
-                        Index = #Items
-                    end
-                    if (Actions.onListChange ~= nil) then
-                        Actions.onListChange(Index, Items[Index]);
-                    end
                     local Audio = RageUI.Settings.Audio
-                    RageUI.PlaySound(Audio[Audio.Use].LeftRight.audioName, Audio[Audio.Use].LeftRight.audioRef)
+                    if (Enabled == true or Enabled == nil) then
+                        Index = Index - 1
+                        if Index < 1 then
+                            Index = #Items
+                        end
+                        if (Actions.onListChange ~= nil) then
+                            Actions.onListChange(Index, Items[Index]);
+                        end
+                        local Audio = RageUI.Settings.Audio
+                        RageUI.PlaySound(Audio[Audio.Use].LeftRight.audioName, Audio[Audio.Use].LeftRight.audioRef)
+                    else
+                        RageUI.PlaySound(Audio[Audio.Use].Error.audioName, Audio[Audio.Use].Error.audioRef)
+                    end
                 elseif Selected and (CurrentMenu.Controls.Right.Active) and not (CurrentMenu.Controls.Left.Active or (CurrentMenu.Controls.Click.Active and LeftArrowHovered)) then
-                    Index = Index + 1
-                    if Index > #Items then
-                        Index = 1
-                    end
-                    if (Actions.onListChange ~= nil) then
-                        Actions.onListChange(Index, Items[Index]);
-                    end
                     local Audio = RageUI.Settings.Audio
-                    RageUI.PlaySound(Audio[Audio.Use].LeftRight.audioName, Audio[Audio.Use].LeftRight.audioRef)
+                    if (Enabled == true or Enabled == nil) then
+                        Index = Index + 1
+                        if Index > #Items then
+                            Index = 1
+                        end
+                        if (Actions.onListChange ~= nil) then
+                            Actions.onListChange(Index, Items[Index]);
+                        end
+                        RageUI.PlaySound(Audio[Audio.Use].LeftRight.audioName, Audio[Audio.Use].LeftRight.audioRef)
+                    else
+                        RageUI.PlaySound(Audio[Audio.Use].Error.audioName, Audio[Audio.Use].Error.audioRef)
+                    end
                 end
 
                 if Selected and (CurrentMenu.Controls.Select.Active or ((Hovered and CurrentMenu.Controls.Click.Active) and (not LeftArrowHovered and not RightArrowHovered))) then
                     local Audio = RageUI.Settings.Audio
-                    RageUI.PlaySound(Audio[Audio.Use].Select.audioName, Audio[Audio.Use].Select.audioRef)
+                    
+                    if (Enabled == true or Enabled == nil) then
+                        RageUI.PlaySound(Audio[Audio.Use].Select.audioName, Audio[Audio.Use].Select.audioRef)
 
-                    if (Actions.onSelected ~= nil) then
-                        Actions.onSelected(Index, Items[Index]);
-                    end
+                        if (Actions.onSelected ~= nil) then
+                            Actions.onSelected(Index, Items[Index]);
+                        end
 
-                    if Submenu ~= nil and type(Submenu) == "table" then
-                        RageUI.NextMenu = Submenu[Index]
+                        if Submenu ~= nil and type(Submenu) == "table" then
+                            RageUI.NextMenu = Submenu[Index]
+                        end
+                    else
+                        RageUI.PlaySound(Audio[Audio.Use].Error.audioName, Audio[Audio.Use].Error.audioRef)
                     end
-                elseif Selected then
+                elseif (Enabled == true or Enabled == nil) and Selected then
                     if(Actions.onActive ~= nil) then
                         Actions.onActive()
                     end 
