@@ -148,19 +148,23 @@ function RageUI.Checkbox(Label, Description, Checked, Style, Actions)
                         StyleCheckBox(Selected, Checked, 2, 4, BoxOffset)
                     end
 
-                    if Selected and (CurrentMenu.Controls.Select.Active or (Hovered and CurrentMenu.Controls.Click.Active)) and (Style.Enabled == true or Style.Enabled == nil) then
-                        local Audio = RageUI.Settings.Audio
-                        RageUI.PlaySound(Audio[Audio.Use].Select.audioName, Audio[Audio.Use].Select.audioRef)
-                        Checked = not Checked
-                        if (Checked) then
-                            if (Actions.onChecked ~= nil) then
-                                Actions.onChecked();
-                            end
-                        else
-                            if (Actions.onUnChecked ~= nil) then
-                                Actions.onUnChecked();
-                            end
-                        end
+                    if Selected and (CurrentMenu.Controls.Select.Active or (Hovered and CurrentMenu.Controls.Click.Active))then
+						local Audio = RageUI.Settings.Audio
+						if Style.Enabled == true or Style.Enabled == nil then
+							RageUI.PlaySound(Audio[Audio.Use].Select.audioName, Audio[Audio.Use].Select.audioRef)
+							Checked = not Checked
+							if (Checked) then
+								if (Actions.onChecked ~= nil) then
+									Actions.onChecked();
+								end
+							else
+								if (Actions.onUnChecked ~= nil) then
+									Actions.onUnChecked();
+								end
+							end
+						else
+							RageUI.PlaySound(Audio[Audio.Use].Error.audioName, Audio[Audio.Use].Error.audioRef)
+						end
                     end
                 else
                     error("UICheckBox Style is not a `table`")
