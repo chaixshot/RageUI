@@ -62,7 +62,7 @@ function RageUI.Checkbox(Label, Description, Checked, Style, Actions)
                 local BoxOffset = 0
                 RageUI.ItemsSafeZone(CurrentMenu)
 
-                local Hovered = false;F
+                local Hovered = false;
 
                 ---@type boolean
                 if CurrentMenu.EnableMouse == true and (CurrentMenu.CursorStyle == 0) or (CurrentMenu.CursorStyle == 1) then

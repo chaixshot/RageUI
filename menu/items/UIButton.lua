@@ -88,7 +88,7 @@ function RageUI.Button(Label, Description, Style, Enabled, Callback, Submenu)
                 end
 
                 if Style.RightLabel ~= nil and Style.RightLabel ~= "" then
-                    โ
+                    if Enabled == true or Enabled == nil then
                         if Selected then
                             RenderText(Style.RightLabel, CurrentMenu.X + SettingsButton.RightText.X - RightBadgeOffset + CurrentMenu.WidthOffset, CurrentMenu.Y + SettingsButton.RightText.Y + CurrentMenu.SubtitleHeight + RageUI.ItemOffset, 0, SettingsButton.RightText.Scale, 0, 0, 0, 255, 2)
                         else
