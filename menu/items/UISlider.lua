@@ -1,24 +1,23 @@
 ---@type table
 local SettingsButton = {
-    Rectangle = { Y = 0, Width = 431, Height = 38 },
-    Text = { X = 8, Y = 3, Scale = 0.33 },
-    LeftBadge = { Y = -2, Width = 40, Height = 40 },
-    RightBadge = { X = 385, Y = -2, Width = 40, Height = 40 },
-    RightText = { X = 420, Y = 4, Scale = 0.35 },
-    SelectedSprite = { Dictionary = "commonmenu", Texture = "gradient_nav", Y = 0, Width = 431, Height = 38 },
+    Rectangle = {Y = 0, Width = 431, Height = 38},
+    Text = {X = 8, Y = 3, Scale = 0.33},
+    LeftBadge = {Y = -2, Width = 40, Height = 40},
+    RightBadge = {X = 385, Y = -2, Width = 40, Height = 40},
+    RightText = {X = 420, Y = 4, Scale = 0.35},
+    SelectedSprite = {Dictionary = "commonmenu", Texture = "gradient_nav", Y = 0, Width = 431, Height = 38},
 }
 
 ---@type table
 local SettingsSlider = {
-    Background = { X = 250, Y = 14.5, Width = 150, Height = 9 },
-    Slider = { X = 250, Y = 14.5, Width = 75, Height = 9 },
-    Divider = { X = 323.5, Y = 9, Width = 2.5, Height = 20 },
-    LeftArrow = { Dictionary = "commonmenutu", Texture = "arrowleft", X = 235, Y = 11.5, Width = 15, Height = 15 },
-    RightArrow = { Dictionary = "commonmenutu", Texture = "arrowright", X = 400, Y = 11.5, Width = 15, Height = 15 },
+    Background = {X = 250, Y = 14.5, Width = 150, Height = 9},
+    Slider = {X = 250, Y = 14.5, Width = 75, Height = 9},
+    Divider = {X = 323.5, Y = 9, Width = 2.5, Height = 20},
+    LeftArrow = {Dictionary = "commonmenutu", Texture = "arrowleft", X = 235, Y = 11.5, Width = 15, Height = 15},
+    RightArrow = {Dictionary = "commonmenutu", Texture = "arrowright", X = 400, Y = 11.5, Width = 15, Height = 15},
 }
 
 function RageUI.Slider(Label, ProgressStart, ProgressMax, Description, Divider, Style, Enabled, Actions)
-
     ---@type table
     local CurrentMenu = RageUI.CurrentMenu;
     local Audio = RageUI.Settings.Audio
@@ -32,7 +31,6 @@ function RageUI.Slider(Label, ProgressStart, ProgressMax, Description, Divider, 
             local Option = RageUI.Options + 1
 
             if CurrentMenu.Pagination.Minimum <= Option and CurrentMenu.Pagination.Maximum >= Option then
-
                 ---@type number
                 local Selected = CurrentMenu.Index == Option
 
@@ -55,19 +53,20 @@ function RageUI.Slider(Label, ProgressStart, ProgressMax, Description, Divider, 
                     LeftArrowHovered = RageUI.IsMouseInBounds(CurrentMenu.X + SettingsSlider.LeftArrow.X + CurrentMenu.SafeZoneSize.X + CurrentMenu.WidthOffset, CurrentMenu.Y + SettingsSlider.LeftArrow.Y + CurrentMenu.SafeZoneSize.Y + CurrentMenu.SubtitleHeight + RageUI.ItemOffset, SettingsSlider.LeftArrow.Width, SettingsSlider.LeftArrow.Height)
                     RightArrowHovered = RageUI.IsMouseInBounds(CurrentMenu.X + SettingsSlider.RightArrow.X + CurrentMenu.SafeZoneSize.X + CurrentMenu.WidthOffset, CurrentMenu.Y + SettingsSlider.RightArrow.Y + CurrentMenu.SafeZoneSize.Y + CurrentMenu.SubtitleHeight + RageUI.ItemOffset, SettingsSlider.RightArrow.Width, SettingsSlider.RightArrow.Height)
                 end
-                if Enabled == true or Enabled == nil then
-                    if Selected then
-                        if Style.RightLabel ~= nil and Style.RightLabel ~= "" then
+
+                if Style.RightLabel ~= nil and Style.RightLabel ~= "" then
+                    RightOffset = MeasureStringWidth(Style.RightLabel, 0, 0.35)
+                    if Enabled == true or Enabled == nil then
+                        if Selected then
                             RenderText(Style.RightLabel, CurrentMenu.X + SettingsButton.RightText.X - RightBadgeOffset + CurrentMenu.WidthOffset, CurrentMenu.Y + SettingsButton.RightText.Y + CurrentMenu.SubtitleHeight + RageUI.ItemOffset, 0, SettingsButton.RightText.Scale, 0, 0, 0, 255, 2)
-                            RightOffset = MeasureStringWidth(Style.RightLabel, 0, 0.35)
-                        end
-                    else
-                        if Style.RightLabel ~= nil and Style.RightLabel ~= "" then
-                            RightOffset = MeasureStringWidth(Style.RightLabel, 0, 0.35)
+                        else
                             RenderText(Style.RightLabel, CurrentMenu.X + SettingsButton.RightText.X - RightBadgeOffset + CurrentMenu.WidthOffset, CurrentMenu.Y + SettingsButton.RightText.Y + CurrentMenu.SubtitleHeight + RageUI.ItemOffset, 0, SettingsButton.RightText.Scale, 245, 245, 245, 255, 2)
                         end
+                    else
+                        RenderText(Style.RightLabel, CurrentMenu.X + SettingsButton.RightText.X - RightBadgeOffset + CurrentMenu.WidthOffset, CurrentMenu.Y + SettingsButton.RightText.Y + CurrentMenu.SubtitleHeight + RageUI.ItemOffset, 0, SettingsButton.RightText.Scale, 163, 159, 148, 255, 2)
                     end
                 end
+
                 RightOffset = RightOffset + RightBadgeOffset
                 if Enabled == true or Enabled == nil then
                     if Selected then
@@ -167,9 +166,9 @@ function RageUI.Slider(Label, ProgressStart, ProgressMax, Description, Divider, 
                         RageUI.PlaySound(Audio[Audio.Use].Error.audioName, Audio[Audio.Use].Error.audioRef)
                     end
                 elseif (Enabled == true or Enabled == nil) and Selected then
-                    if(Actions.onActive ~= nil) then
+                    if (Actions.onActive ~= nil) then
                         Actions.onActive()
-                    end 
+                    end
                 end
             end
 
@@ -177,6 +176,3 @@ function RageUI.Slider(Label, ProgressStart, ProgressMax, Description, Divider, 
         end
     end
 end
-
-
-

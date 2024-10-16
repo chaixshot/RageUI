@@ -59,7 +59,7 @@ function RageUI.GoUp(Options)
                 RageUI.PlaySound(Audio[Audio.Use].UpDown.audioName, Audio[Audio.Use].UpDown.audioRef)
                 RageUI.LastControl = true
                 if (CurrentMenu.onIndexChange ~= nil) then
-                    CreateThread(function()
+                    Citizen.CreateThread(function()
                         CurrentMenu.onIndexChange(CurrentMenu.Index)
                     end)
                 end
@@ -108,7 +108,7 @@ function RageUI.GoDown(Options)
                 RageUI.PlaySound(Audio[Audio.Use].UpDown.audioName, Audio[Audio.Use].UpDown.audioRef)
                 RageUI.LastControl = false
                 if (CurrentMenu.onIndexChange ~= nil) then
-                    CreateThread(function()
+                    Citizen.CreateThread(function()
                         CurrentMenu.onIndexChange(CurrentMenu.Index)
                     end)
                 end
@@ -158,7 +158,7 @@ function RageUI.GoActionControlSlider(Controls, Action)
             if not Controls[Action].Pressed then
                 if IsDisabledControlJustPressed(Controls[Action].Keys[Index][1], Controls[Action].Keys[Index][2]) then
                     Controls[Action].Pressed = true
-                    CreateThread(function()
+                    Citizen.CreateThread(function()
                         Controls[Action].Active = true
                         Citizen.Wait(1)
                         Controls[Action].Active = false
@@ -193,16 +193,19 @@ function RageUI.Controls()
                     DisableAllControlActions(2)
                 end
                 
-                DisableControlAction(0, 37, true) -- INPUT_SELECT_WEAPON
-                DisableControlAction(0, 140, true) -- INPUT_MELEE_ATTACK_LIGHT
+                DisableControlAction(0, 24, true)
+                DisableControlAction(0, 37, true)
+                DisableControlAction(0, 140, true)
+                DisableControlAction(0, 263, true)
+                DisableControlAction(0, 264, true)
 
-                if not IsInputDisabled(2) then
-                    for Index = 1, #Controls.Enabled.Controller do
-                        EnableControlAction(Controls.Enabled.Controller[Index][1], Controls.Enabled.Controller[Index][2], true)
-                    end
-                else
+                if IsUsingKeyboard(2) then
                     for Index = 1, #Controls.Enabled.Keyboard do
                         EnableControlAction(Controls.Enabled.Keyboard[Index][1], Controls.Enabled.Keyboard[Index][2], true)
+                    end
+                else
+                    for Index = 1, #Controls.Enabled.Controller do
+                        EnableControlAction(Controls.Enabled.Controller[Index][1], Controls.Enabled.Controller[Index][2], true)
                     end
                 end
 
@@ -211,7 +214,7 @@ function RageUI.Controls()
                         if not Controls.Up.Pressed then
                             if IsDisabledControlJustPressed(Controls.Up.Keys[Index][1], Controls.Up.Keys[Index][2]) then
                                 Controls.Up.Pressed = true
-                                CreateThread(function()
+                                Citizen.CreateThread(function()
                                     RageUI.GoUp(Options)
 									local timer = GetGameTimer()
                                     while Controls.Up.Enabled and IsDisabledControlPressed(Controls.Up.Keys[Index][1], Controls.Up.Keys[Index][2]) do
@@ -234,7 +237,7 @@ function RageUI.Controls()
                         if not Controls.Down.Pressed then
                             if IsDisabledControlJustPressed(Controls.Down.Keys[Index][1], Controls.Down.Keys[Index][2]) then
                                 Controls.Down.Pressed = true
-								CreateThread(function()
+								Citizen.CreateThread(function()
                                     RageUI.GoDown(Options)
 									local timer = GetGameTimer()
                                     while Controls.Down.Enabled and IsDisabledControlPressed(Controls.Down.Keys[Index][1], Controls.Down.Keys[Index][2]) do
@@ -265,7 +268,7 @@ function RageUI.Controls()
                             if not Controls.Back.Locked and IsDisabledControlJustPressed(Controls.Back.Keys[Index][1], Controls.Back.Keys[Index][2]) then
                                 Controls.Back.Locked = true
                                 Controls.Back.Pressed = true
-                                CreateThread(function()
+                                Citizen.CreateThread(function()
                                     Citizen.Wait(200)
                                     Controls.Back.Locked = false
                                 end)

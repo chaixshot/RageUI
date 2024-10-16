@@ -1,17 +1,17 @@
 ---@type table
 local SettingsButton = {
-    Rectangle = { Y = 0, Width = 431, Height = 38 },
-    Text = { X = 8, Y = 3, Scale = 0.33 },
-    SelectedSprite = { Dictionary = "commonmenu", Texture = "gradient_nav", Y = 0, Width = 431, Height = 38 },
+    Rectangle = {Y = 0, Width = 431, Height = 38},
+    Text = {X = 8, Y = 3, Scale = 0.33},
+    SelectedSprite = {Dictionary = "commonmenu", Texture = "gradient_nav", Y = 0, Width = 431, Height = 38},
 }
 
 ---@type table
 local SettingsSlider = {
-    Background = { X = 250, Y = 14.5, Width = 150, Height = 9 },
-    Slider = { X = 250, Y = 14.5, Width = 75, Height = 9 },
-    Divider = { X = 323.5, Y = 9, Width = 2.5, Height = 20 },
-    LeftArrow = { Dictionary = "mpleaderboard", Texture = "leaderboard_female_icon", X = 215, Y = 0, Width = 40, Height = 40 },
-    RightArrow = { Dictionary = "mpleaderboard", Texture = "leaderboard_male_icon", X = 395, Y = 0, Width = 40, Height = 40 },
+    Background = {X = 250, Y = 14.5, Width = 150, Height = 9},
+    Slider = {X = 250, Y = 14.5, Width = 75, Height = 9},
+    Divider = {X = 323.5, Y = 9, Width = 2.5, Height = 20},
+    LeftArrow = {Dictionary = "mpleaderboard", Texture = "leaderboard_female_icon", X = 215, Y = 0, Width = 40, Height = 40},
+    RightArrow = {Dictionary = "mpleaderboard", Texture = "leaderboard_male_icon", X = 395, Y = 0, Width = 40, Height = 40},
 }
 
 local Items = {}
@@ -20,18 +20,15 @@ for i = 1, 10 do
 end
 
 function RageUI.UISliderHeritage(Label, ItemIndex, Description, Actions, Value)
-
     local CurrentMenu = RageUI.CurrentMenu;
     local Audio = RageUI.Settings.Audio
 
     if CurrentMenu ~= nil then
         if CurrentMenu() then
-
             ---@type number
             local Option = RageUI.Options + 1
 
             if CurrentMenu.Pagination.Minimum <= Option and CurrentMenu.Pagination.Maximum >= Option then
-
                 ---@type number
                 local value = Value or 0.1
                 local Selected = CurrentMenu.Index == Option
@@ -106,17 +103,13 @@ function RageUI.UISliderHeritage(Label, ItemIndex, Description, Actions, Value)
                     end
                     RageUI.PlaySound(Audio[Audio.Use].Select.audioName, Audio[Audio.Use].Select.audioRef, false)
                 elseif Selected then
-                    if(Actions.onActive ~= nil) then
+                    if (Actions.onActive ~= nil) then
                         Actions.onActive()
-                    end 
+                    end
                 end
-
             end
 
             RageUI.Options = RageUI.Options + 1
         end
     end
 end
-
-
-

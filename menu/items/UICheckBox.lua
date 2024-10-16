@@ -34,23 +34,15 @@ RageUI.CheckboxStyle = {
 ---@return nil
 local function StyleCheckBox(Selected, Checked, Box, BoxSelect, OffSet)
     ---@type table
-    local CurrentMenu = RageUI.CurrentMenu;
-    if OffSet == nil then
-        OffSet = 0
-    end
+    local CurrentMenu = RageUI.CurrentMenu
+    local ID = 1;
+
     if Selected then
-        if Checked then
-            RenderSprite(SettingsCheckbox.Dictionary, SettingsCheckbox.Textures[Box], CurrentMenu.X + SettingsCheckbox.X + CurrentMenu.WidthOffset - OffSet, CurrentMenu.Y + SettingsCheckbox.Y + CurrentMenu.SubtitleHeight + RageUI.ItemOffset, SettingsCheckbox.Width, SettingsCheckbox.Height)
-        else
-            RenderSprite(SettingsCheckbox.Dictionary, SettingsCheckbox.Textures[1], CurrentMenu.X + SettingsCheckbox.X + CurrentMenu.WidthOffset - OffSet, CurrentMenu.Y + SettingsCheckbox.Y + CurrentMenu.SubtitleHeight + RageUI.ItemOffset, SettingsCheckbox.Width, SettingsCheckbox.Height)
-        end
+        ID = Checked and Box or 1
     else
-        if Checked then
-            RenderSprite(SettingsCheckbox.Dictionary, SettingsCheckbox.Textures[BoxSelect], CurrentMenu.X + SettingsCheckbox.X + CurrentMenu.WidthOffset - OffSet, CurrentMenu.Y + SettingsCheckbox.Y + CurrentMenu.SubtitleHeight + RageUI.ItemOffset, SettingsCheckbox.Width, SettingsCheckbox.Height)
-        else
-            RenderSprite(SettingsCheckbox.Dictionary, SettingsCheckbox.Textures[3], CurrentMenu.X + SettingsCheckbox.X + CurrentMenu.WidthOffset - OffSet, CurrentMenu.Y + SettingsCheckbox.Y + CurrentMenu.SubtitleHeight + RageUI.ItemOffset, SettingsCheckbox.Width, SettingsCheckbox.Height)
-        end
+        ID =  Checked and BoxSelect or 3
     end
+    RenderSprite(SettingsCheckbox.Dictionary, SettingsCheckbox.Textures[ID], CurrentMenu.X + SettingsCheckbox.X + CurrentMenu.WidthOffset - (OffSet or 0), CurrentMenu.Y + SettingsCheckbox.Y + CurrentMenu.SubtitleHeight + RageUI.ItemOffset, SettingsCheckbox.Width, SettingsCheckbox.Height)
 end
 
 
@@ -70,7 +62,7 @@ function RageUI.Checkbox(Label, Description, Checked, Style, Actions)
                 local BoxOffset = 0
                 RageUI.ItemsSafeZone(CurrentMenu)
 
-                local Hovered = false;
+                local Hovered = false;F
 
                 ---@type boolean
                 if CurrentMenu.EnableMouse == true and (CurrentMenu.CursorStyle == 0) or (CurrentMenu.CursorStyle == 1) then
@@ -102,50 +94,49 @@ function RageUI.Checkbox(Label, Description, Checked, Style, Actions)
                             end
                         end
                     else
-                        ---@type table
-                        local LeftBadge = RageUI.BadgeStyle.Lock
-                        ---@type number
-                        local LeftBadgeOffset = ((LeftBadge == RageUI.BadgeStyle.None or LeftBadge == nil) and 0 or 27)
-
-                        if Selected then
-                            RenderText(Label, CurrentMenu.X + SettingsButton.Text.X + LeftBadgeOffset, CurrentMenu.Y + SettingsButton.Text.Y + CurrentMenu.SubtitleHeight + RageUI.ItemOffset, 0, SettingsButton.Text.Scale, 0, 0, 0, 255)
+                        if Style.Enabled == true or Style.Enabled == nil then
+                            if Selected then
+                                RenderText(Label, CurrentMenu.X + SettingsButton.Text.X, CurrentMenu.Y + SettingsButton.Text.Y + CurrentMenu.SubtitleHeight + RageUI.ItemOffset, 0, SettingsButton.Text.Scale, 0, 0, 0, 255)
+                            else
+                                RenderText(Label, CurrentMenu.X + SettingsButton.Text.X, CurrentMenu.Y + SettingsButton.Text.Y + CurrentMenu.SubtitleHeight + RageUI.ItemOffset, 0, SettingsButton.Text.Scale, 163, 159, 148, 255)
+                            end
                         else
-                            RenderText(Label, CurrentMenu.X + SettingsButton.Text.X + LeftBadgeOffset, CurrentMenu.Y + SettingsButton.Text.Y + CurrentMenu.SubtitleHeight + RageUI.ItemOffset, 0, SettingsButton.Text.Scale, 163, 159, 148, 255)
-                        end
-
-                        if LeftBadge ~= RageUI.BadgeStyle.None and LeftBadge ~= nil then
-                            local BadgeData = LeftBadge(Selected)
-
-                            RenderSprite(BadgeData.BadgeDictionary or "commonmenu", BadgeData.BadgeTexture or "", CurrentMenu.X, CurrentMenu.Y + SettingsButton.LeftBadge.Y + CurrentMenu.SubtitleHeight + RageUI.ItemOffset, SettingsButton.LeftBadge.Width, SettingsButton.LeftBadge.Height, 0, BadgeData.BadgeColour.R or 255, BadgeData.BadgeColour.G or 255, BadgeData.BadgeColour.B or 255, BadgeData.BadgeColour.A or 255)
+                            RenderText(Label, CurrentMenu.X + SettingsButton.Text.X, CurrentMenu.Y + SettingsButton.Text.Y + CurrentMenu.SubtitleHeight + RageUI.ItemOffset, 0, SettingsButton.Text.Scale, 163, 159, 148, 255, 255)
                         end
                     end
 
-                    if Style.Enabled == true or Style.Enabled == nil then
-                        if Selected then
-                            if Style.RightLabel ~= nil and Style.RightLabel ~= "" then
-
+                    if Style.RightLabel ~= nil and Style.RightLabel ~= "" then
+                        BoxOffset = MeasureStringWidth(Style.RightLabel, 0, 0.35)
+                        if Style.Enabled == true or Style.Enabled == nil then
+                            if Selected then
                                 RenderText(Style.RightLabel, CurrentMenu.X + SettingsButton.RightText.X - RightBadgeOffset + CurrentMenu.WidthOffset, CurrentMenu.Y + SettingsButton.RightText.Y + CurrentMenu.SubtitleHeight + RageUI.ItemOffset, 0, SettingsButton.RightText.Scale, 0, 0, 0, 255, 2)
-                                BoxOffset = MeasureStringWidth(Style.RightLabel, 0, 0.35)
+                            else
+                                RenderText(Style.RightLabel, CurrentMenu.X + SettingsButton.RightText.X - RightBadgeOffset + CurrentMenu.WidthOffset, CurrentMenu.Y + SettingsButton.RightText.Y + CurrentMenu.SubtitleHeight + RageUI.ItemOffset, 0, SettingsButton.RightText.Scale, 245, 245, 245, 255, 2)
                             end
                         else
-                            if Style.RightLabel ~= nil and Style.RightLabel ~= "" then
-                                RenderText(Style.RightLabel, CurrentMenu.X + SettingsButton.RightText.X - RightBadgeOffset + CurrentMenu.WidthOffset, CurrentMenu.Y + SettingsButton.RightText.Y + CurrentMenu.SubtitleHeight + RageUI.ItemOffset, 0, SettingsButton.RightText.Scale, 245, 245, 245, 255, 2)
-                                BoxOffset = MeasureStringWidth(Style.RightLabel, 0, 0.35)
-                            end
+                            RenderText(Style.RightLabel, CurrentMenu.X + SettingsButton.RightText.X - RightBadgeOffset + CurrentMenu.WidthOffset, CurrentMenu.Y + SettingsButton.RightText.Y + CurrentMenu.SubtitleHeight + RageUI.ItemOffset, 0, SettingsButton.RightText.Scale, 163, 159, 148, 255, 2)
                         end
                     end
 
                     BoxOffset = RightBadgeOffset + BoxOffset
-                    if Style.Style ~= nil then
-                        if Style.Style == RageUI.CheckboxStyle.Tick then
-                            StyleCheckBox(Selected, Checked, 2, 4, BoxOffset)
-                        elseif Style.Style == RageUI.CheckboxStyle.Cross then
-                            StyleCheckBox(Selected, Checked, 5, 6, BoxOffset)
+                    if Style.Enabled == true or Style.Enabled == nil then
+                        if Style.Style ~= nil then
+                            if Style.Style == RageUI.CheckboxStyle.Tick then
+                                StyleCheckBox(Selected, Checked, 2, 4, BoxOffset)
+                            elseif Style.Style == RageUI.CheckboxStyle.Cross then
+                                StyleCheckBox(Selected, Checked, 5, 6, BoxOffset)
+                            else
+                                StyleCheckBox(Selected, Checked, 2, 4, BoxOffset)
+                            end
                         else
                             StyleCheckBox(Selected, Checked, 2, 4, BoxOffset)
                         end
                     else
-                        StyleCheckBox(Selected, Checked, 2, 4, BoxOffset)
+                        local LeftBadge = RageUI.BadgeStyle.Lock
+                        if LeftBadge ~= RageUI.BadgeStyle.None and LeftBadge ~= nil then
+                            local BadgeData = LeftBadge(Selected)
+                            RenderSprite(BadgeData.BadgeDictionary or "commonmenu", BadgeData.BadgeTexture or "", CurrentMenu.X + SettingsCheckbox.X + CurrentMenu.WidthOffset - BoxOffset, CurrentMenu.Y + SettingsCheckbox.Y + CurrentMenu.SubtitleHeight + RageUI.ItemOffset, SettingsCheckbox.Width, SettingsCheckbox.Height)
+                        end
                     end
 
                     if Selected and (CurrentMenu.Controls.Select.Active or (Hovered and CurrentMenu.Controls.Click.Active))then

@@ -135,9 +135,9 @@ RageUI.Settings = {
             Pressed = false,
             Active = false,
             Keys = {
-                { 0, 201 },
-                { 1, 201 },
-                { 2, 201 },
+                { 0, 176 },
+                { 1, 176 },
+                { 2, 176 },
             },
         },
         Back = {
