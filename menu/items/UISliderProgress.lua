@@ -139,6 +139,10 @@ function RageUI.SliderProgress(Label, ProgressStart, ProgressMax, Description, S
                     error("Style ProgressBackgroundColor is not a table or undefined")
                 end
 
+                if ProgressStart < 1 then
+                    ProgressStart = 1
+                end
+
                 if (type(Style.ProgressColor) == "table") then
                     RenderRectangle(CurrentMenu.X + SettingsSlider.Slider.X + CurrentMenu.WidthOffset - RightOffset, CurrentMenu.Y + SettingsSlider.Slider.Y + CurrentMenu.SubtitleHeight + RageUI.ItemOffset, (((SettingsSlider.Slider.Width) / (#Items - 1)) * (ProgressStart - 1)), SettingsSlider.Slider.Height, Style.ProgressColor.R, Style.ProgressColor.G, Style.ProgressColor.B, Style.ProgressColor.A)
                 else
@@ -148,7 +152,6 @@ function RageUI.SliderProgress(Label, ProgressStart, ProgressMax, Description, S
                 RageUI.ItemOffset = RageUI.ItemOffset + SettingsButton.Rectangle.Height
 
                 RageUI.ItemsDescription(CurrentMenu, Description, Selected);
-
                 if Selected and (CurrentMenu.Controls.Left.Active or (CurrentMenu.Controls.Click.Active and LeftArrowHovered)) and not (CurrentMenu.Controls.Right.Active or (CurrentMenu.Controls.Click.Active and RightArrowHovered)) then
                     if (Enabled == true or Enabled == nil) then
                         ProgressStart = ProgressStart - 1
