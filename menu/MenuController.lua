@@ -121,35 +121,37 @@ function RageUI.GoDown(Options)
 end
 
 function RageUI.GoActionControl(Controls, Action)
-	if Controls[Action or 'Left'].Enabled then
-		for Index = 1, #Controls[Action or 'Left'].Keys do
-			if not Controls[Action or 'Left'].Pressed then
-				if IsDisabledControlJustPressed(Controls[Action or 'Left'].Keys[Index][1], Controls[Action or 'Left'].Keys[Index][2]) then
-					Controls[Action or 'Left'].Pressed = true
-					Citizen.CreateThread(function()
-						Controls[Action or 'Left'].Active = true
-						Citizen.Wait(0.01)
-						Controls[Action or 'Left'].Active = false
-						local timer = GetGameTimer()
-						while Action ~= "Select" and Controls[Action or 'Left'].Enabled and IsDisabledControlPressed(Controls[Action or 'Left'].Keys[Index][1], Controls[Action or 'Left'].Keys[Index][2]) do
-							if GetTimeDifference(GetGameTimer(), timer) > 300 then
-								Controls[Action or 'Left'].Pressed = false
-								Controls[Action or 'Left'].Active = true
-								Citizen.Wait(1)
-								Controls[Action or 'Left'].Active = false
-							end
-							Citizen.Wait(50)
-						end
-						Controls[Action or 'Left'].Pressed = false
-						if (Action ~= ControlActions[5]) then
-							Citizen.Wait(10)
-						end
-					end)
-					break
-				end
-			end
-		end
-	end
+    if Controls[Action or 'Left'].Enabled then
+        for Index = 1, #Controls[Action or 'Left'].Keys do
+            if not Controls[Action or 'Left'].Pressed then
+                if IsDisabledControlJustPressed(Controls[Action or 'Left'].Keys[Index][1], Controls[Action or 'Left'].Keys[Index][2]) then
+                    if Action ~= "Click" or (Action == "Click" and RageUI.CurrentMenu.EnableMouse) then
+                        Controls[Action or 'Left'].Pressed = true
+                        Citizen.CreateThread(function()
+                            Controls[Action or 'Left'].Active = true
+                            Citizen.Wait(0.01)
+                            Controls[Action or 'Left'].Active = false
+                            local timer = GetGameTimer()
+                            while Action ~= "Select" and Controls[Action or 'Left'].Enabled and IsDisabledControlPressed(Controls[Action or 'Left'].Keys[Index][1], Controls[Action or 'Left'].Keys[Index][2]) do
+                                if GetTimeDifference(GetGameTimer(), timer) > 300 then
+                                    Controls[Action or 'Left'].Pressed = false
+                                    Controls[Action or 'Left'].Active = true
+                                    Citizen.Wait(1)
+                                    Controls[Action or 'Left'].Active = false
+                                end
+                                Citizen.Wait(50)
+                            end
+                            Controls[Action or 'Left'].Pressed = false
+                            if (Action ~= ControlActions[5]) then
+                                Citizen.Wait(10)
+                            end
+                        end)
+                        break
+                    end
+                end
+            end
+        end
+    end
 end
 
 function RageUI.GoActionControlSlider(Controls, Action)
@@ -157,19 +159,21 @@ function RageUI.GoActionControlSlider(Controls, Action)
         for Index = 1, #Controls[Action].Keys do
             if not Controls[Action].Pressed then
                 if IsDisabledControlJustPressed(Controls[Action].Keys[Index][1], Controls[Action].Keys[Index][2]) then
-                    Controls[Action].Pressed = true
-                    Citizen.CreateThread(function()
-                        Controls[Action].Active = true
-                        Citizen.Wait(1)
-                        Controls[Action].Active = false
-                        while Controls[Action].Enabled and IsDisabledControlPressed(Controls[Action].Keys[Index][1], Controls[Action].Keys[Index][2]) do
+                    if Action ~= "Click" or (Action == "Click" and RageUI.CurrentMenu.EnableMouse) then
+                        Controls[Action].Pressed = true
+                        Citizen.CreateThread(function()
                             Controls[Action].Active = true
                             Citizen.Wait(1)
                             Controls[Action].Active = false
-                        end
-                        Controls[Action].Pressed = false
-                    end)
-                    break
+                            while Controls[Action].Enabled and IsDisabledControlPressed(Controls[Action].Keys[Index][1], Controls[Action].Keys[Index][2]) do
+                                Controls[Action].Active = true
+                                Citizen.Wait(1)
+                                Controls[Action].Active = false
+                            end
+                            Controls[Action].Pressed = false
+                        end)
+                        break
+                    end
                 end
             end
         end
@@ -184,7 +188,6 @@ function RageUI.Controls()
     if CurrentMenu ~= nil then
         if CurrentMenu() then
             if CurrentMenu.Open then
-
                 local Controls = CurrentMenu.Controls;
                 ---@type number
                 local Options = CurrentMenu.Options
@@ -192,7 +195,7 @@ function RageUI.Controls()
                 if CurrentMenu.EnableMouse then
                     DisableAllControlActions(2)
                 end
-                
+
                 DisableControlAction(0, 24, true)
                 DisableControlAction(0, 37, true)
                 DisableControlAction(0, 140, true)
@@ -216,12 +219,12 @@ function RageUI.Controls()
                                 Controls.Up.Pressed = true
                                 Citizen.CreateThread(function()
                                     RageUI.GoUp(Options)
-									local timer = GetGameTimer()
+                                    local timer = GetGameTimer()
                                     while Controls.Up.Enabled and IsDisabledControlPressed(Controls.Up.Keys[Index][1], Controls.Up.Keys[Index][2]) do
-										if GetTimeDifference(GetGameTimer(), timer) > 300 then
-											Controls.Up.Pressed = false
-											RageUI.GoUp(Options)
-										end
+                                        if GetTimeDifference(GetGameTimer(), timer) > 300 then
+                                            Controls.Up.Pressed = false
+                                            RageUI.GoUp(Options)
+                                        end
                                         Citizen.Wait(50)
                                     end
                                     Controls.Up.Pressed = false
@@ -237,14 +240,14 @@ function RageUI.Controls()
                         if not Controls.Down.Pressed then
                             if IsDisabledControlJustPressed(Controls.Down.Keys[Index][1], Controls.Down.Keys[Index][2]) then
                                 Controls.Down.Pressed = true
-								Citizen.CreateThread(function()
+                                Citizen.CreateThread(function()
                                     RageUI.GoDown(Options)
-									local timer = GetGameTimer()
+                                    local timer = GetGameTimer()
                                     while Controls.Down.Enabled and IsDisabledControlPressed(Controls.Down.Keys[Index][1], Controls.Down.Keys[Index][2]) do
-										if GetTimeDifference(GetGameTimer(), timer) > 300 then
-											Controls.Down.Pressed = false
-											RageUI.GoDown(Options)
-										end
+                                        if GetTimeDifference(GetGameTimer(), timer) > 300 then
+                                            Controls.Down.Pressed = false
+                                            RageUI.GoDown(Options)
+                                        end
                                         Citizen.Wait(50)
                                     end
                                     Controls.Down.Pressed = false
@@ -290,10 +293,9 @@ function RageUI.Navigation()
     if CurrentMenu ~= nil then
         if CurrentMenu() and (CurrentMenu.Display.Navigation) then
             if CurrentMenu.EnableMouse then
-                SetMouseCursorActiveThisFrame()
+                SetMouseCursorThisFrame()
             end
             if RageUI.Options > CurrentMenu.Pagination.Total then
-
                 ---@type boolean
                 local UpHovered = false
 
@@ -301,7 +303,7 @@ function RageUI.Navigation()
                 local DownHovered = false
 
                 if not CurrentMenu.SafeZoneSize then
-                    CurrentMenu.SafeZoneSize = { X = 0, Y = 0 }
+                    CurrentMenu.SafeZoneSize = {X = 0, Y = 0}
 
                     if CurrentMenu.Safezone then
                         CurrentMenu.SafeZoneSize = RageUI.GetSafeZoneBounds()

@@ -336,7 +336,7 @@ function RageUI.IsMouseInBounds(X, Y, Width, Height)
     local MX, MY = math.round(GetControlNormal(2, 239) * 1920) / 1920, math.round(GetControlNormal(2, 240) * 1080) / 1080
     X, Y = X / 1920, Y / 1080
     Width, Height = Width / 1920, Height / 1080
-    return (MX >= X and MX <= X + Width) and (MY > Y and MY < Y + Height)
+    return (MX >= X and MX <= X + Width) and (MY > Y and MY < Y + Height) and RageUI.CurrentMenu.EnableMouse
 end
 
 function RageUI.GetSafeZoneBounds()
