@@ -21,6 +21,7 @@ function RageUI.ColourPanel(Title, Colours, MinimumIndex, CurrentIndex, Action, 
 	local MinimumIndex = (MinimumIndex < #Colours-8) and MinimumIndex or #Colours-8
     ---@type table
     local CurrentMenu = RageUI.CurrentMenu;
+    local Enabled = true
 
     if CurrentMenu ~= nil then
         if CurrentMenu() and (CurrentMenu.Index == Index) then
@@ -57,54 +58,62 @@ function RageUI.ColourPanel(Title, Colours, MinimumIndex, CurrentIndex, Action, 
                 else
                     ColourSeperator = Colour.Seperator
                 end
+                
+                if Style.Enabled == true or Style.Enabled == nil then
+                    Enabled = true
+                else
+                    Enabled = false
+                end
             else
                 ColourSeperator = Colour.Seperator
             end
             
             RenderText((Title and Title or "") .. " (" .. CurrentIndex .. " " .. ColourSeperator.Text .. " " .. #Colours .. ")", CurrentMenu.X + RageUI.Settings.Panels.Grid.Text.Top.X + (CurrentMenu.WidthOffset / 2), CurrentMenu.Y + RageUI.Settings.Panels.Grid.Text.Top.Y + CurrentMenu.SubtitleHeight + RageUI.ItemOffset, 0, RageUI.Settings.Panels.Grid.Text.Top.Scale, 245, 245, 245, 255, 1)
+            
+            if Enabled then
+                if Hovered or LeftArrowHovered or RightArrowHovered or CurrentMenu.Controls.Left.Active or CurrentMenu.Controls.Right.Active then
+                    if RageUI.Settings.Controls.Click.Active or CurrentMenu.Controls.Left.Active or CurrentMenu.Controls.Right.Active then
+                        Selected = true
 
-            if Hovered or LeftArrowHovered or RightArrowHovered or CurrentMenu.Controls.Left.Active or CurrentMenu.Controls.Right.Active then
-                if RageUI.Settings.Controls.Click.Active or CurrentMenu.Controls.Left.Active or CurrentMenu.Controls.Right.Active then
-                    Selected = true
+                        if LeftArrowHovered or CurrentMenu.Controls.Left.Active then
+                            CurrentIndex = CurrentIndex - 1
 
-                    if LeftArrowHovered or CurrentMenu.Controls.Left.Active then
-                        CurrentIndex = CurrentIndex - 1
+                            if CurrentIndex < 1 then
+                                CurrentIndex = #Colours
+                                MinimumIndex = #Colours - Maximum + 1
+                            elseif CurrentIndex < MinimumIndex then
+                                MinimumIndex = MinimumIndex - 1
+                            end
+                        elseif RightArrowHovered or CurrentMenu.Controls.Right.Active then
+                            CurrentIndex = CurrentIndex + 1
 
-                        if CurrentIndex < 1 then
-                            CurrentIndex = #Colours
-                            MinimumIndex = #Colours - Maximum + 1
-                        elseif CurrentIndex < MinimumIndex then
-                            MinimumIndex = MinimumIndex - 1
-                        end
-                    elseif RightArrowHovered or CurrentMenu.Controls.Right.Active then
-                        CurrentIndex = CurrentIndex + 1
-
-                        if CurrentIndex > #Colours then
-                            CurrentIndex = 1
-                            MinimumIndex = 1
-                        elseif CurrentIndex > MinimumIndex + Maximum - 1 then
-                            MinimumIndex = MinimumIndex + 1
-                        end
-                    elseif Hovered then
-                        for Index = 1, Maximum do
-                            if RageUI.IsMouseInBounds(CurrentMenu.X + Colour.Box.X + (Colour.Box.Width * (Index - 1)) + CurrentMenu.SafeZoneSize.X + (CurrentMenu.WidthOffset / 2), CurrentMenu.Y + Colour.Box.Y + CurrentMenu.SafeZoneSize.Y + CurrentMenu.SubtitleHeight + RageUI.ItemOffset, Colour.Box.Width, Colour.Box.Height) then
-                                CurrentIndex = MinimumIndex + Index - 1
+                            if CurrentIndex > #Colours then
+                                CurrentIndex = 1
+                                MinimumIndex = 1
+                            elseif CurrentIndex > MinimumIndex + Maximum - 1 then
+                                MinimumIndex = MinimumIndex + 1
+                            end
+                        elseif Hovered then
+                            for Index = 1, Maximum do
+                                if RageUI.IsMouseInBounds(CurrentMenu.X + Colour.Box.X + (Colour.Box.Width * (Index - 1)) + CurrentMenu.SafeZoneSize.X + (CurrentMenu.WidthOffset / 2), CurrentMenu.Y + Colour.Box.Y + CurrentMenu.SafeZoneSize.Y + CurrentMenu.SubtitleHeight + RageUI.ItemOffset, Colour.Box.Width, Colour.Box.Height) then
+                                    CurrentIndex = MinimumIndex + Index - 1
+                                end
                             end
                         end
-                    end
 
-                    if (Action.onColorChange ~= nil) then
-                        Action.onColorChange(MinimumIndex, CurrentIndex)
+                        if (Action.onColorChange ~= nil) then
+                            Action.onColorChange(MinimumIndex, CurrentIndex)
+                        end
                     end
+                end
+            
+                if (Hovered or LeftArrowHovered or RightArrowHovered or CurrentMenu.Controls.Left.Active or CurrentMenu.Controls.Right.Active) and (RageUI.Settings.Controls.Click.Active or CurrentMenu.Controls.Left.Active or CurrentMenu.Controls.Right.Active) then
+                    local Audio = RageUI.Settings.Audio
+                    RageUI.PlaySound(Audio[Audio.Use].Select.audioName, Audio[Audio.Use].Select.audioRef)
                 end
             end
 
             RageUI.ItemOffset = RageUI.ItemOffset + Colour.Background.Height + Colour.Background.Y
-
-            if (Hovered or LeftArrowHovered or RightArrowHovered or CurrentMenu.Controls.Left.Active or CurrentMenu.Controls.Right.Active) and (RageUI.Settings.Controls.Click.Active or CurrentMenu.Controls.Left.Active or CurrentMenu.Controls.Right.Active) then
-                local Audio = RageUI.Settings.Audio
-                RageUI.PlaySound(Audio[Audio.Use].Select.audioName, Audio[Audio.Use].Select.audioRef)
-            end
         end
     end
 end
