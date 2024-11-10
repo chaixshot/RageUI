@@ -19,20 +19,20 @@ local GridType = RageUI.Enum {
 }
 
 local GridSprite = {
-    [GridType.Default] = { Dictionary = "pause_menu_pages_char_mom_dad", Texture = "nose_grid", },
-    [GridType.Horizontal] = { Dictionary = "RageUI", Texture = "horizontal_grid", },
-    [GridType.Vertical] = { Dictionary = "RageUI", Texture = "vertical_grid", },
+    [GridType.Default] = {Dictionary = "pause_menu_pages_char_mom_dad", Texture = "nose_grid",},
+    [GridType.Horizontal] = {Dictionary = "RageUI", Texture = "horizontal_grid",},
+    [GridType.Vertical] = {Dictionary = "RageUI", Texture = "vertical_grid",},
 }
 
 local Grid = {
-    Background = { Dictionary = "commonmenu", Texture = "gradient_bgd", Y = 4, Width = 431, Height = 275 },
-    Grid = { X = 115.5, Y = 47.5, Width = 200, Height = 200 },
-    Circle = { Dictionary = "mpinventory", Texture = "in_world_circle", X = 115.5, Y = 47.5, Width = 20, Height = 20 },
+    Background = {Dictionary = "commonmenu", Texture = "gradient_bgd", Y = 4, Width = 431, Height = 275},
+    Grid = {X = 115.5, Y = 47.5, Width = 200, Height = 200},
+    Circle = {Dictionary = "mpinventory", Texture = "in_world_circle", X = 115.5, Y = 47.5, Width = 20, Height = 20},
     Text = {
-        Top = { X = 215.5, Y = 15, Scale = 0.35 },
-        Bottom = { X = 215.5, Y = 250, Scale = 0.35 },
-        Left = { X = 57.75, Y = 130, Scale = 0.35 },
-        Right = { X = 373.25, Y = 130, Scale = 0.35 },
+        Top = {X = 215.5, Y = 15, Scale = 0.35},
+        Bottom = {X = 215.5, Y = 250, Scale = 0.35},
+        Left = {X = 57.75, Y = 130, Scale = 0.35},
+        Right = {X = 373.25, Y = 130, Scale = 0.35},
     },
 }
 

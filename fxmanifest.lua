@@ -6,11 +6,11 @@ game 'gta5'
 version '2.6.3'
 
 server_scripts {
-	"versionchecker.lua",
+    "versionchecker.lua",
 }
 
 client_scripts {
-	"RMenu.lua",
+    "RMenu.lua",
     "menu/RageUI.lua",
     "menu/Menu.lua",
     "menu/MenuController.lua",
@@ -38,8 +38,8 @@ client_scripts {
     "menu/windows/UIHeritage.lua",
 }
 
-files{
-	"RMenu.lua",
+files {
+    "RMenu.lua",
     "menu/RageUI.lua",
     "menu/Menu.lua",
     "menu/MenuController.lua",

@@ -31,5 +31,3 @@ function RageUI.PlaySound(Library, Sound, IsLooped)
         end
     end
 end
-
-

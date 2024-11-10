@@ -25,6 +25,6 @@ local enums = {
 ---@param t table
 ---@return Enum
 function RageUI.Enum(t)
-    local e = { enums = t }
+    local e = {enums = t}
     return setmetatable(e, enums)
 end

@@ -1,11 +1,11 @@
 ---@type table
 local SettingsButton = {
-    Rectangle = { Y = 0, Width = 431, Height = 38 },
-    Text = { X = 8, Y = 3, Scale = 0.33 },
-    LeftBadge = { Y = -2, Width = 40, Height = 40 },
-    RightBadge = { X = 385, Y = -2, Width = 40, Height = 40 },
-    RightText = { X = 420, Y = 4, Scale = 0.35 },
-    SelectedSprite = { Dictionary = "commonmenu", Texture = "gradient_nav", Y = 0, Width = 431, Height = 38 },
+    Rectangle = {Y = 0, Width = 431, Height = 38},
+    Text = {X = 8, Y = 3, Scale = 0.33},
+    LeftBadge = {Y = -2, Width = 40, Height = 40},
+    RightBadge = {X = 385, Y = -2, Width = 40, Height = 40},
+    RightText = {X = 420, Y = 4, Scale = 0.35},
+    SelectedSprite = {Dictionary = "commonmenu", Texture = "gradient_nav", Y = 0, Width = 431, Height = 38},
 }
 
 ---ButtonWithStyle
@@ -18,22 +18,20 @@ local SettingsButton = {
 ---@return nil
 ---@public
 function RageUI.Button(Label, Description, Style, Enabled, Callback, Submenu)
-	local Label = Label
-	if type(Label) == "string" then
-		Label = Label:sub(1, 30)
-	end
+    local Label = Label
+    if type(Label) == "string" then
+        Label = Label:sub(1, 30)
+    end
 
     ---@type table
     local CurrentMenu = RageUI.CurrentMenu;
 
     if CurrentMenu ~= nil then
         if CurrentMenu() then
-
             ---@type number
             local Option = RageUI.Options + 1
 
             if CurrentMenu.Pagination.Minimum <= Option and CurrentMenu.Pagination.Maximum >= Option then
-
                 ---@type boolean
                 local Selected = CurrentMenu.Index == Option
 
@@ -103,7 +101,7 @@ function RageUI.Button(Label, Description, Style, Enabled, Callback, Submenu)
 
                 RageUI.ItemsDescription(CurrentMenu, Description, Selected);
 
-                
+
                 if Selected and (CurrentMenu.Controls.Select.Active or (Hovered and CurrentMenu.Controls.Click.Active)) then
                     local Audio = RageUI.Settings.Audio
                     if Enabled then
@@ -120,14 +118,12 @@ function RageUI.Button(Label, Description, Style, Enabled, Callback, Submenu)
                         RageUI.PlaySound(Audio[Audio.Use].Error.audioName, Audio[Audio.Use].Error.audioRef)
                     end
                 elseif Enabled and Selected then
-                    if(Callback.onActive ~= nil) then
+                    if (Callback.onActive ~= nil) then
                         Callback.onActive()
-                    end 
+                    end
                 end
             end
             RageUI.Options = RageUI.Options + 1
-
         end
     end
-
 end

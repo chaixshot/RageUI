@@ -15,9 +15,9 @@
 
 ---@type table
 local Heritage = {
-    Background = { Dictionary = "pause_menu_pages_char_mom_dad", Texture = "mumdadbg", Width = 431, Height = 228 },
-    Mum = { Dictionary = "char_creator_portraits", X = 25, Width = 228, Height = 228 },
-    Dad = { Dictionary = "char_creator_portraits", X = 195, Width = 228, Height = 228 },
+    Background = {Dictionary = "pause_menu_pages_char_mom_dad", Texture = "mumdadbg", Width = 431, Height = 228},
+    Mum = {Dictionary = "char_creator_portraits", X = 25, Width = 228, Height = 228},
+    Dad = {Dictionary = "char_creator_portraits", X = 195, Width = 228, Height = 228},
 }
 
 ---@type Window
@@ -33,14 +33,14 @@ function RageUI.Window.Heritage(Mum, Dad)
                 Dad = 0
             end
             if Mum == 21 then
-                Mum = "special_female_" .. (tonumber(string.sub(Mum, 2, 2)) - 1)
+                Mum = "special_female_"..(tonumber(string.sub(Mum, 2, 2)) - 1)
             else
-                Mum = "female_" .. Mum
+                Mum = "female_"..Mum
             end
             if Dad >= 21 then
-                Dad = "special_male_" .. (tonumber(string.sub(Dad, 2, 2)) - 1)
+                Dad = "special_male_"..(tonumber(string.sub(Dad, 2, 2)) - 1)
             else
-                Dad = "male_" .. Dad
+                Dad = "male_"..Dad
             end
             RenderSprite(Heritage.Background.Dictionary, Heritage.Background.Texture, CurrentMenu.X, CurrentMenu.Y + CurrentMenu.SubtitleHeight + RageUI.ItemOffset, Heritage.Background.Width + (CurrentMenu.WidthOffset / 1), Heritage.Background.Height)
             RenderSprite(Heritage.Dad.Dictionary, Dad, CurrentMenu.X + Heritage.Dad.X + (CurrentMenu.WidthOffset / 2), CurrentMenu.Y + CurrentMenu.SubtitleHeight + RageUI.ItemOffset, Heritage.Dad.Width, Heritage.Dad.Height)
@@ -49,4 +49,3 @@ function RageUI.Window.Heritage(Mum, Dad)
         end
     end
 end
-

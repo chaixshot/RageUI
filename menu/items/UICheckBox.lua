@@ -1,16 +1,17 @@
 ---@type table
 local SettingsButton = {
-    Rectangle = { Y = 0, Width = 431, Height = 38 },
-    Text = { X = 8, Y = 3, Scale = 0.33 },
-    LeftBadge = { Y = -2, Width = 40, Height = 40 },
-    RightBadge = { X = 385, Y = -2, Width = 40, Height = 40 },
-    RightText = { X = 420, Y = 4, Scale = 0.35 },
-    SelectedSprite = { Dictionary = "commonmenu", Texture = "gradient_nav", Y = 0, Width = 431, Height = 38 },
+    Rectangle = {Y = 0, Width = 431, Height = 38},
+    Text = {X = 8, Y = 3, Scale = 0.33},
+    LeftBadge = {Y = -2, Width = 40, Height = 40},
+    RightBadge = {X = 385, Y = -2, Width = 40, Height = 40},
+    RightText = {X = 420, Y = 4, Scale = 0.35},
+    SelectedSprite = {Dictionary = "commonmenu", Texture = "gradient_nav", Y = 0, Width = 431, Height = 38},
 }
 
 ---@type table
 local SettingsCheckbox = {
-    Dictionary = "commonmenu", Textures = {
+    Dictionary = "commonmenu",
+    Textures = {
         "shop_box_blankb", -- 1
         "shop_box_tickb", -- 2
         "shop_box_blank", -- 3
@@ -18,7 +19,10 @@ local SettingsCheckbox = {
         "shop_box_crossb", -- 5
         "shop_box_cross", -- 6
     },
-    X = 380, Y = -6, Width = 50, Height = 50
+    X = 380,
+    Y = -6,
+    Width = 50,
+    Height = 50
 }
 
 RageUI.CheckboxStyle = {
@@ -40,7 +44,7 @@ local function StyleCheckBox(Selected, Checked, Box, BoxSelect, OffSet)
     if Selected then
         ID = Checked and Box or 1
     else
-        ID =  Checked and BoxSelect or 3
+        ID = Checked and BoxSelect or 3
     end
     RenderSprite(SettingsCheckbox.Dictionary, SettingsCheckbox.Textures[ID], CurrentMenu.X + SettingsCheckbox.X + CurrentMenu.WidthOffset - (OffSet or 0), CurrentMenu.Y + SettingsCheckbox.Y + CurrentMenu.SubtitleHeight + RageUI.ItemOffset, SettingsCheckbox.Width, SettingsCheckbox.Height)
 end
@@ -51,7 +55,6 @@ function RageUI.Checkbox(Label, Description, Checked, Style, Actions)
     local CurrentMenu = RageUI.CurrentMenu;
     if CurrentMenu ~= nil then
         if CurrentMenu() then
-
             ---@type number
             local Option = RageUI.Options + 1
             if CurrentMenu.Pagination.Minimum <= Option and CurrentMenu.Pagination.Maximum >= Option then
@@ -139,23 +142,23 @@ function RageUI.Checkbox(Label, Description, Checked, Style, Actions)
                         end
                     end
 
-                    if Selected and (CurrentMenu.Controls.Select.Active or (Hovered and CurrentMenu.Controls.Click.Active))then
-						local Audio = RageUI.Settings.Audio
-						if Style.Enabled == true or Style.Enabled == nil then
-							RageUI.PlaySound(Audio[Audio.Use].Select.audioName, Audio[Audio.Use].Select.audioRef)
-							Checked = not Checked
-							if (Checked) then
-								if (Actions.onChecked ~= nil) then
-									Actions.onChecked();
-								end
-							else
-								if (Actions.onUnChecked ~= nil) then
-									Actions.onUnChecked();
-								end
-							end
-						else
-							RageUI.PlaySound(Audio[Audio.Use].Error.audioName, Audio[Audio.Use].Error.audioRef)
-						end
+                    if Selected and (CurrentMenu.Controls.Select.Active or (Hovered and CurrentMenu.Controls.Click.Active)) then
+                        local Audio = RageUI.Settings.Audio
+                        if Style.Enabled == true or Style.Enabled == nil then
+                            RageUI.PlaySound(Audio[Audio.Use].Select.audioName, Audio[Audio.Use].Select.audioRef)
+                            Checked = not Checked
+                            if (Checked) then
+                                if (Actions.onChecked ~= nil) then
+                                    Actions.onChecked();
+                                end
+                            else
+                                if (Actions.onUnChecked ~= nil) then
+                                    Actions.onUnChecked();
+                                end
+                            end
+                        else
+                            RageUI.PlaySound(Audio[Audio.Use].Error.audioName, Audio[Audio.Use].Error.audioRef)
+                        end
                     end
                 else
                     error("UICheckBox Style is not a `table`")
@@ -168,11 +171,8 @@ function RageUI.Checkbox(Label, Description, Checked, Style, Actions)
                 if (Actions.onSelected ~= nil) and (Selected) then
                     Actions.onSelected(Checked);
                 end
-
             end
             RageUI.Options = RageUI.Options + 1
         end
     end
 end
-
-

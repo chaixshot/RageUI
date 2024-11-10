@@ -21,7 +21,7 @@ function RenderSprite(TextureDictionary, TextureName, X, Y, Width, Height, Headi
 
     if not HasStreamedTextureDictLoaded(TextureDictionary) then
         RequestStreamedTextureDict(TextureDictionary, true)
-		SetStreamedTextureDictAsNoLongerNeeded(TextureDictionary)
+        SetStreamedTextureDictAsNoLongerNeeded(TextureDictionary)
     end
 
     DrawSprite(TextureDictionary, TextureName, X + Width * 0.5, Y + Height * 0.5, Width, Height, Heading or 0, tonumber(R) or 255, tonumber(G) or 255, tonumber(B) or 255, tonumber(A) or 255)

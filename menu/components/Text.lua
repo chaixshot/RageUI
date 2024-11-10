@@ -36,7 +36,6 @@ function MeasureStringWidth(str, font, scale)
     return EndTextCommandGetWidth(true) * 1920
 end
 
-
 ---AddText
 ---
 --- Reference : Frazzle <3
@@ -56,7 +55,6 @@ function AddText(str)
         end
     end
 end
-
 
 ---GetLineCount
 ---
@@ -112,16 +110,16 @@ function GetLineCount(Text, X, Y, Font, Scale, R, G, B, A, Alignment, DropShadow
 
     BeginTextCommandLineCount("CELL_EMAIL_BCON")
     AddText(Text)
-	
-	local line = EndTextCommandLineCount(X, Y)
-	if string.find(Text, "font face") then
-		if string.len(Text) > 150 and line == 1 then
-			return line*4
-		else
-			return line*2
-		end
-	end
-	return line
+
+    local line = EndTextCommandLineCount(X, Y)
+    if string.find(Text, "font face") then
+        if string.len(Text) > 150 and line == 1 then
+            return line * 4
+        else
+            return line * 2
+        end
+    end
+    return line
 end
 
 ---RenderText
