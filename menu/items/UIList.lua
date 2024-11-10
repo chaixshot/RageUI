@@ -158,7 +158,16 @@ function RageUI.List(Label, Items, Index, Description, Style, Enabled, Actions, 
                         RageUI.PlaySound(Audio[Audio.Use].Select.audioName, Audio[Audio.Use].Select.audioRef)
 
                         if (Actions.onSelected ~= nil) then
-                            Actions.onSelected(Index, Items[Index]);
+                            Actions.onSelected(Index, Items[Index], {
+                                Label = Label,
+                                Items = Items,
+                                Index = Index,
+                                Description = Description,
+                                Style = Style,
+                                Enabled = Enabled,
+                                Actions = Actions,
+                                Submenu = Submenu,
+                            });
                         end
 
                         if Submenu ~= nil and type(Submenu) == "table" then
